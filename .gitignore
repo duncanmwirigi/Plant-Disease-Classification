@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.DS_Store
+data/
+models/
+assets/training_history.png
+assets/confusion_matrix.png
+assets/sample_predictions.png

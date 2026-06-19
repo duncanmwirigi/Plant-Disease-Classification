@@ -1,0 +1,8 @@
+# Requires Python 3.10–3.12 (TensorFlow has no wheels for Python 3.13+ yet).
+# Create the venv with: python3.12 -m venv .venv
+tensorflow>=2.15
+numpy>=1.24,<2.0
+matplotlib>=3.8
+scikit-learn>=1.5
+pyyaml>=6.0
+Pillow>=10.0

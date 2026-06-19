@@ -1,0 +1,22 @@
+project:
+  name: plant_disease_classifier
+  random_state: 42
+
+data:
+  raw_dir: data/raw
+  image_size: [224, 224]
+  validation_split: 0.2
+  # Set e.g. 200 for faster local experiments on the full PlantVillage set
+  max_samples_per_class: null
+
+training:
+  batch_size: 32
+  epochs: 8
+  fine_tune_epochs: 4
+  learning_rate: 0.001
+  fine_tune_learning_rate: 0.0001
+  fine_tune_from_layer: 100
+
+paths:
+  model_dir: models
+  assets_dir: assets
