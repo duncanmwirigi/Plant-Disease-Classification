@@ -6,7 +6,7 @@ A Python project that trains a **leaf disease classifier** on the **PlantVillage
 
 | Step | Script | Output |
 |------|--------|--------|
-| Setup dataset | `download_data.py` | Instructions + `data/raw/` folder |
+| Setup dataset | `download_data.py --clone` | Clones PlantVillage into `data/raw/` |
 | Train | `train.py` | Saved model, labels, metrics, plots |
 | Predict | `predict.py path/to/leaf.jpg` | Top disease predictions with confidence |
 
@@ -41,48 +41,39 @@ plant_disease/
 
 ## Requirements
 
-- **Python 3.10–3.12** (TensorFlow does not publish wheels for Python 3.13+ yet)
+- **Python 3.10, 3.11, or 3.12** — the versions [TensorFlow publishes wheels for](https://www.tensorflow.org/install/pip)
 - TensorFlow 2.15+
 - scikit-learn, matplotlib, numpy, pyyaml, Pillow
 
+Create a virtual environment with a supported Python (for example 3.12), then install dependencies:
+
 ```bash
-# Use Python 3.12 (or 3.10/3.11). Do NOT use 3.13 or 3.14.
 python3.12 -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-If you already created a venv with the wrong Python version, remove it and recreate:
-
-```bash
-rm -rf .venv
-python3.12 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
+If `pip install` reports no matching distribution for TensorFlow, check `python --version` and recreate `.venv` with Python 3.10–3.12.
 
 ## Quick start
 
 ### 1. Download PlantVillage
 
 ```bash
-python3 download_data.py
+python download_data.py --clone
 ```
 
-Then download and extract the dataset into `data/raw/`. Example layouts that work:
+This clones the public GitHub mirror (~2 GB) into `data/raw/PlantVillage-Dataset/`. Training uses the full color set under `raw/color/` (38 classes, ~54k images).
+
+For manual options, run `python download_data.py` without flags.
+
+Example layout after clone:
 
 ```
-data/raw/color/Potato___Early_blight/*.jpg
 data/raw/PlantVillage-Dataset/raw/color/Tomato___Late_blight/*.JPG
 ```
 
 **Kaggle:** [PlantVillage Dataset](https://www.kaggle.com/datasets/abdallahalidev/plantvillage-dataset)
-
-**GitHub mirror:**
-
-```bash
-git clone https://github.com/spMohanty/PlantVillage-Dataset.git data/raw/PlantVillage-Dataset
-```
 
 ### 2. Train the classifier
 
@@ -190,4 +181,3 @@ Website: https://bytecityinc.com
 ## License
 
 MIT — use and modify freely for learning and projects.
-# Plant-Disease-Classification

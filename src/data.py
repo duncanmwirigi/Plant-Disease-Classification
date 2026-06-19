@@ -17,14 +17,15 @@ def find_dataset_root(raw_dir: Path) -> Path:
             "See README.md for instructions."
         )
 
-    candidates: list[tuple[int, Path]] = []
+    candidates: list[tuple[int, int, int, Path]] = []
     for path in [raw_dir, *raw_dir.rglob("*")]:
         if not path.is_dir():
             continue
         class_dirs = [child for child in path.iterdir() if child.is_dir() and _looks_like_class_dir(child)]
         if len(class_dirs) >= 5:
-            image_count = sum(len(list_images(class_dir)) for class_dir in class_dirs[:5])
-            candidates.append((len(class_dirs), path if image_count > 0 else path))
+            image_count = sum(len(list_images(class_dir)) for class_dir in class_dirs)
+            prefer_color = 1 if path.name == "color" and "raw" in path.parts else 0
+            candidates.append((prefer_color, len(class_dirs), image_count, path))
 
     if not candidates:
         raise FileNotFoundError(
@@ -32,8 +33,8 @@ def find_dataset_root(raw_dir: Path) -> Path:
             "Expected subfolders like 'Potato___Early_blight/' with images inside."
         )
 
-    candidates.sort(key=lambda item: item[0], reverse=True)
-    return candidates[0][1]
+    candidates.sort(key=lambda item: (item[0], item[1], item[2]), reverse=True)
+    return candidates[0][3]
 
 
 def _looks_like_class_dir(path: Path) -> bool:
